@@ -1,0 +1,5 @@
+const N = 3
+range T = 1..N
+
+DOUBLE = (in[a:T] -> RETURN[a]),
+RETURN[b:T] = (out[b] -> DOUBLE).
