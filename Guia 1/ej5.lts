@@ -1,0 +1,8 @@
+// Ejercicio 5.. Un circuito digital biestable recibe una secuencia de est´ımols (trigger ) de entrada y
+// alternativamente emite 0 y 1. Modele el proceso BISTABLE usando FSP, y verifique si produce la
+// salida requerida; i.e. deber´ıa efectuar las acciones dadas por la siguiente traza:
+// trigger → 1 → trigger → 0 → trigger → 1 → trigger → 0 . . .
+
+BISTABLE = BISTABLE[0],
+BISTABLE[0] = (trigger -> [1] -> BISTABLE[1]),
+BISTABLE[1] = (trigger -> [0] -> BISTABLE[0]).
