@@ -1,16 +1,16 @@
-range HOURS = 0..24
-const HCLOSE = 21
-const HOPEN = 7
+const N = 3
+range T = 0..N
 
-DIRECTOR = (in[h:HOURS] -> CONTROL[h]),
-CONTROL[h:HOURS] = (
-					when(h >= HOPEN & h <= HCLOSE) open -> EAST | open -> WEST
-					|when(h > HCLOSE | h < HOPEN) close -> WEST
-					),
-				
-EAST = (
-		arrive -> DIRECTOR
+CINTA = (
+		in[a:T] -> PRENSA[a]
 		),
-WEST = (
-		leave -> DIRECTOR
-		).
+PRENSA = PRENSA[0],
+PRENSA[a:T] = (
+				when(a == 1) entrega -> ENTREGAR
+				|when(a > 1) esperar -> PRENSA[a-1]
+				|when(a == 0) esperar -> CINTA
+			),
+
+ENTREGAR = (proximo -> CINTA).
+
+//||SYNC = (PRENSA(0)||CINTA).
