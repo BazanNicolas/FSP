@@ -1,0 +1,21 @@
+const N = 4
+range T = 0..N
+
+CINTA = CINTA[0],
+CINTA[a:T] = (
+		when(a == 0) esperar_producto -> CINTA[a+1]
+		|when(a > 0)transportar -> (prensa -> PRENSA[a] | taladro -> TALADRO[a])
+		),
+PRENSA = PRENSA[0],
+PRENSA[a:T] = (
+				when(a == 1) entrega -> ENTREGAR
+				|when(a > 1) esperar_entrega -> PRENSA[a]
+			),
+TALADRO = TALADRO[0],
+TALADRO[a:T] = (
+				when(a == 1) entrega -> ENTREGAR
+				|when(a > 1) esperar_entrega -> PRENSA[a-1]
+			),
+ENTREGAR = (proximo -> CINTA).
+
+//Ta re mal este
