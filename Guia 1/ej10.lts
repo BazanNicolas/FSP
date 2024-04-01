@@ -1,0 +1,17 @@
+range HOURS = 0..24
+const HCLOSE = 21
+const HOPEN = 7
+
+DIRECTOR = (in[h:HOURS] -> CONTROL[h]),
+CONTROL[h:HOURS] = (
+					when(h >= HOPEN & h <= HCLOSE) open -> EAST
+					|when(h > HCLOSE | h < HOPEN) close -> WEST
+					),
+				
+EAST = (
+		arrive -> DIRECTOR
+		|leave -> DIRECTOR
+		),
+WEST = (
+		leave -> DIRECTOR
+		).
