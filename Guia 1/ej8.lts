@@ -1,0 +1,16 @@
+const ALTA_FRECUENCIA = 108
+const BAJA_FRECUENCIA = 88
+range FREQ = 0..108
+
+RADIO = OFF,
+OFF = ({on,reset} -> ON[ALTA_FRECUENCIA]),
+ON[ALTA_FRECUENCIA] = (
+    off -> OFF
+    | scan -> SCAN[ALTA_FRECUENCIA]
+),
+SCAN [f:FREQ] = (
+    when(f <= ALTA_FRECUENCIA & f >BAJA_FRECUENCIA) scan[f] -> SCAN[f-1]
+    | when(f == BAJA_FRECUENCIA) f_baja[f] -> (detenerse -> SCAN[f] | scan -> SCAN[f-1])
+	| when(f < BAJA_FRECUENCIA & f>0) scan[f] -> SCAN[f-1]
+	| encontro -> STOP
+).
