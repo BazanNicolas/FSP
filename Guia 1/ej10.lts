@@ -4,13 +4,12 @@ const HOPEN = 7
 
 DIRECTOR = (in[h:HOURS] -> CONTROL[h]),
 CONTROL[h:HOURS] = (
-					when(h >= HOPEN & h <= HCLOSE) open -> EAST
+					when(h >= HOPEN & h <= HCLOSE) open -> EAST | open -> WEST
 					|when(h > HCLOSE | h < HOPEN) close -> WEST
 					),
 				
 EAST = (
 		arrive -> DIRECTOR
-		|leave -> DIRECTOR
 		),
 WEST = (
 		leave -> DIRECTOR
