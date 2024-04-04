@@ -1,3 +1,4 @@
 READER = (aquire.read -> release.read -> READER)
 WRITER = 
+CONTROLLER = //modela cuantos escritores tengo(sumando restando) y escritores(0 o 1)
 ||SYS = (CONTROLLER || {1..N}:READER || {1..M}:WRITER)/{..}
