@@ -1,16 +1,19 @@
-range HOURS = 0..24
-const HCLOSE = 21
-const HOPEN = 7
+EAST = (arrive -> EAST).
+WEST = (depart -> WEST).
 
-DIRECTOR = (in[h:HOURS] -> CONTROL[h]),
-CONTROL[h:HOURS] = (
-					when(h >= HOPEN & h <= HCLOSE) open -> EAST | open -> WEST
-					|when(h > HCLOSE | h < HOPEN) close -> WEST
+// 0 = open, 1 = closed, N = people inside
+CONTROL(N = 4) = CONTROL[0][0],
+CONTROL[i:0..N][0] = ( when(i<N) arrive -> CONTROL[i+1][0]
+					 | when(i>0) depart -> CONTROL[i-1][0]
+					 | close -> CONTROL[i][1]
 					),
-				
-EAST = (
-		arrive -> DIRECTOR
-		),
-WEST = (
-		leave -> DIRECTOR
-		).
+CONTROL[i:0..N][1] = ( when(i>0) depart -> CONTROL[i-1][1]
+					 | open -> CONTROL[i][0]
+					).
+
+DIRECTOR = DIRECTOR[0],
+DIRECTOR [0] = (close -> DIRECTOR[1]),
+DIRECTOR [1] = (open -> DIRECTOR[0]).
+
+||MUSEUM = (CONTROL || DIRECTOR || EAST || WEST).
+					
