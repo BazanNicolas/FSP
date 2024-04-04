@@ -1,6 +1,5 @@
-SENSOR = SENSOR[9],
-SENSOR [t:0..9] = (
-				when(t<2) bajo ->  SENSOR[t+1]
-				| when(t>8) alto -> SENSOR[t-1]
-				| when(t>1 && t<9) normal -> SENSOR[t]
-				).
+SENSOR = (medir[i:0..9] -> (
+		when(i<2) bajo -> SENSOR
+		|when(i>=2 && i<=8) normal -> SENSOR
+		|when(i>8) alto -> SENSOR)
+		).
