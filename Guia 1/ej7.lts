@@ -1,6 +1,8 @@
-const N = 15
-MACHINE = (
-		moneda[5] -> falta[N-5] -> MACHINE
-		|moneda[10] -> falta[N-10] -> MACHINE
-		|moneda[20] -> sobra[20-N] -> MACHINE
-		).
+set B = {[0], [5], [10], [15], [20], [25], [30]}
+set COINS = {[5], [10], [20]}
+
+
+BALANCE = BALANCE[0],
+BALANCE[i:B] = ( when(i<15) in.coin[j:COINS] -> BALANCE[i+j] 
+               | when(i>=15) can -> return[i-15] -> BALANCE[0]
+               ).
