@@ -1,0 +1,3 @@
+READER = (aquire.read -> release.read -> READER)
+WRITER = 
+||SYS = (CONTROLLER || {1..N}:READER || {1..M}:WRITER)/{..}
