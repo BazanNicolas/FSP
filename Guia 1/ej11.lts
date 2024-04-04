@@ -1,16 +1,16 @@
-const N = 3
-range T = 0..N
+const LIBRE = 0
+const OCUPADA = 1
+set ESTADO = {[LIBRE], [OCUPADA]}
 
-CINTA = (
-		in[a:T] -> PRENSA[a]
-		),
-PRENSA = PRENSA[0],
-PRENSA[a:T] = (
-				when(a == 1) entrega -> ENTREGAR
-				|when(a > 1) esperar -> PRENSA[a-1]
-				|when(a == 0) esperar -> CINTA
-			),
+CINTA = CINTA[LIBRE],
+CINTA[i:ESTADO] = (
+      when (i == LIBRE) cinta_libre -> CINTA[OCUPADA] 
+    | when (i == OCUPADA) llevar_a_prensa -> CINTA[LIBRE]
+).
+PRENSA = PRENSA[LIBRE],
+PRENSA[i:ESTADO] = (
+      when (i == LIBRE) llevar_a_prensa -> PRENSA[OCUPADA] 
+    | when (i == OCUPADA) devolver_objeto_prensado -> PRENSA[LIBRE]
+).
 
-ENTREGAR = (proximo -> CINTA).
-
-//||SYNC = (PRENSA(0)||CINTA).
+||CELULA = (CINTA || PRENSA).
