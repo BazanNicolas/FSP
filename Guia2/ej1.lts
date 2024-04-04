@@ -1,4 +1,35 @@
-READER = (aquire.read -> release.read -> READER)
-WRITER = 
-CONTROLLER = //modela cuantos escritores tengo(sumando restando) y escritores(0 o 1)
-||SYS = (CONTROLLER || {1..N}:READER || {1..M}:WRITER)/{..}
+const N = 4
+const M = 4
+const K = 2
+range ESCRITORES = 0..N
+range LECTORES = 0..M
+//set VarAlpha = {value.{read,write}}
+
+LOCK = (acquire -> release -> LOCK).
+VAR = (read ->VAR | write->VAR).
+
+READER = (value.acquire -> value.read -> value.release -> READER).
+WRITER = (value.acquire -> value.read -> value.write -> value.release -> WRITER).
+
+//modela cuantos escritores tengo(sumando restando) y escritores(0 o 1)
+
+//CONTROLLER = CONTROLLER[0][0],
+//CONTROLLER[e:ESCRITORES][l:LECTORES] = (when(e+l == K) max_cap -> reset -> STOP
+//										|when(e+l < K && e<=N) read -> CONTROLLER[e+1][l]
+//										|when(e+l < K && l<=M) write -> CONTROLLER[e][l+1]
+//										).
+
+CONTROLLER = (input[e:ESCRITORES][l:LECTORES] ->( when(e+l == K) max_cap -> reset -> STOP
+												| when(e+l < K && e<=N) read -> CONTROLLER
+												| when(e+l < K && l<=M) write -> CONTROLLER
+												| when(e+l == 0) wait -> CONTROLLER)
+												).
+
+//||SYS = (CONTROLLER || {1..N}:READER || {1..M}:WRITER)/{..}
+||SYS = (CONTROLLER || READER || WRITER || LOCK || VAR)
+/{
+	write /value.write,
+	read /value.read,
+	acquire /value.acquire,
+	release /value.release
+}.
