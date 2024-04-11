@@ -1,0 +1,18 @@
+const TOTAL_PORCIONES = 2
+const SALVAJES = 3
+range PORCIONES = 0..TOTAL_PORCIONES
+
+OLLA = OLLA[TOTAL_PORCIONES],
+OLLA[p:PORCIONES] = (
+		     when(p==0) esperar -> llenar_porciones -> OLLA[TOTAL_PORCIONES]
+		    |when(p>0) servir_porcion -> OLLA[p-1]
+		    ).
+COCINERO = (llenar_porciones -> COCINERO).
+SALVAJE = (servir_porcion -> SALVAJE
+		  |esperar -> SALVAJE).
+ 	   
+||DINNER = (COCINERO || s[1..SALVAJES]:SALVAJE || OLLA)
+/{
+s[i:1..SALVAJES].servir_porcion/servir_porcion,
+s[i:1..SALVAJES].esperar/esperar
+}.
