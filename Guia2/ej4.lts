@@ -16,3 +16,17 @@ SALVAJE = (servir_porcion -> SALVAJE
 s[i:1..SALVAJES].servir_porcion/servir_porcion,
 s[i:1..SALVAJES].esperar/esperar
 }.
+
+
+safety ? 
+
+
+property WAIT = WAIT[TOTAL_PORCIONES],
+WAIT[p:PORCIONES] = (when(p == 0) s[i:1..SALVAJES].esperar -> WAIT
+					|when(p>0) s[i:1..SALVAJES].servir_porcion -> WAIT[p-1]).
+ 	   
+||DINNER = (COCINERO || s[1..SALVAJES]:SALVAJE || OLLA || WAIT)
+/{
+s[i:1..SALVAJES].servir_porcion/servir_porcion,
+s[i:1..SALVAJES].esperar/esperar
+}.
