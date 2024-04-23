@@ -28,5 +28,5 @@ WAIT[p:PORCIONES] = (when(p == 0) s[i:1..SALVAJES].esperar -> WAIT
 ||DINNER = (COCINERO || s[1..SALVAJES]:SALVAJE || OLLA || WAIT)
 /{
 s[i:1..SALVAJES].servir_porcion/servir_porcion,
-s[i:1..SALVAJES].esperar/esperar
+esperar/s[i:1..SALVAJES].esperar
 }.
