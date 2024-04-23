@@ -9,3 +9,25 @@ COMPROBAR_TARJETA = (saldo_suficiente -> aceptada -> PAGINA
 					).
 
 ||LIBROS = (PAGINA || CLIENTE).
+
+
+Intente otra cosa pero me cansé de que no funcione.
+
+const NL = 5
+const NC = 3
+range LIBROS = 0..5
+
+LIBRO = (disponible -> LIBRO | agotado -> LIBRO).
+
+CLIENTE = (realizar_compra -> ver_disponibilidad -> CLIENTE).
+
+PAGINA = (ver_disponibilidad -> PAGINA).
+
+VER_DISPONIBILIDAD = (disponible -> ver_saldo -> VER_DISPONIBILIDAD | agotado -> VER_DISPONIBILIDAD).
+COMPROBAR_TARJETA = ( ver_saldo ->
+					(saldo_suficiente -> aceptada -> COMPROBAR_TARJETA
+					|saldo_insuficiente -> declinada  -> COMPROBAR_TARJETA)
+					).
+
+||LIBROS = (PAGINA || COMPROBAR_TARJETA || c[1..NC]:CLIENTE || l[1..NL]:LIBRO)
+/ {c[i:1..NC].realizar_compra/c.realizar_compra}.
