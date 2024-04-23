@@ -1,0 +1,11 @@
+CLIENTE = (compra -> (aceptada -> CLIENTE | declinada -> CLIENTE)).
+
+PAGINA = (compra -> COMPROBAR_DISPONIBILIDAD),
+COMPROBAR_DISPONIBILIDAD = (disponible -> COMPROBAR_TARJETA
+							| no_disponible -> declinada -> PAGINA
+							),
+COMPROBAR_TARJETA = (saldo_suficiente -> aceptada -> PAGINA
+					|saldo_insuficiente -> declinada  -> PAGINA
+					).
+
+||LIBROS = (PAGINA || CLIENTE).
