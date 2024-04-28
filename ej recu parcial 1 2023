@@ -1,0 +1,36 @@
+CINTA(N=5) = COUNT[0],
+COUNT [i:0..N] = (when (i<N) put -> COUNT[i+1]
+				 |when (i>0) get -> COUNT[i-1]
+				 ).
+
+ROBOT = ROBOT [0][0], //[ocupado][prensado/taladrado]
+ROBOT[0][0] = (get -> ROBOT[1][0]),
+ROBOT[1][0] = (put_maquina -> ROBOT[0][1]),
+ROBOT[0][1] = (get_maquina -> ROBOT[1][1]),
+ROBOT[1][1] = (put -> ROBOT[0][0]
+			  |descartar -> ROBOT[0][0]
+			  ).
+
+MAQUINA = MAQUINA[0],
+MAQUINA[0] = (put_maquina -> MAQUINA[1]), 
+MAQUINA[1] = (get_maquina -> MAQUINA[0]).
+
+||PRENSA = (robot_prensa:ROBOT || prensa:MAQUINA)
+/{
+robot_prensa.put_maquina / prensa.put_maquina, 
+robot_prensa.get_maquina / prensa.get_maquina
+}.
+
+||AGUJEREADORA = (robot_agujereadora:ROBOT || agujereadora:MAQUINA)
+/{
+robot_agujereadora.put_maquina / agujereadora.put_maquina, 
+robot_agujereadora.get_maquina / agujereadora.get_maquina
+}.
+
+||ALL = (c[1..3]:CINTA || PRENSA || AGUJEREADORA)
+/{
+c[1].get / robot_prensa.get,
+robot_prensa.put / c[2].put,
+c[2].get / robot_agujereadora.get,
+robot_agujereadora.put / c[3].put
+}.
